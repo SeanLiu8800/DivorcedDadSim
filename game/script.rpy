@@ -25,16 +25,22 @@ label start:
     # These display lines of dialogue.
     "{i}This is the beginning of Divorced Dad Sim (Title Pending)"
 
+    show kid temp at center
+
     kid "coding with RenPy is definitely gonna need some getting used to"
+
+    show kid temp at left with move
 
     kid "ayo is that a f*ckin' DOG?"
 
     dad ".{cps=1}.."
 
     show screen example 
-    play sound "audio/vine-boom.mp3"
+    # play sound "audio/vine-boom.mp3"
 
-    ""
+    call screen microwavegame
+
+    # ""
 
     # This ends the game.
     return
@@ -42,3 +48,20 @@ label start:
 screen example():
     add "its-cold-out-imma-wear-my-jamas-question-mark-dog-restored-v0-009m4oh1o0b91.webp": 
         align (0.5, 0.2)
+
+init:
+    $ current_time = 0
+    $ start_timer = False
+    
+screen microwavegame():
+    hbox:
+        xalign 0.5 
+        yalign 0.2
+        textbutton "Start" action SetVariable("start_timer", True)
+        textbutton "Stop" action SetVariable("start_timer", False)
+        textbutton "Reset" action SetVariable("current_time", 0.0)
+
+    text "Time elapsed: [current_time:.1f]" xalign 0.5 yalign 0.1
+
+    if start_timer:
+        timer 0.1 action SetScreenVariable("current_time", current_time + 0.1) repeat start_timer
